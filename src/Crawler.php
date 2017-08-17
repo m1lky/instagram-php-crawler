@@ -121,8 +121,8 @@ class Crawler
             if ($r['state'] != PromiseInterface::FULFILLED) {
                 continue;
             }
-
-            $media = json_decode($r['value']->getBody()->getContents(), true)['media'];
+            //dd(json_decode($r['value']->getBody()->getContents())->graphql->shortcode_media->edge_media_to_comment->count);
+            $media = json_decode($r['value']->getBody()->getContents(), true)['graphql']['shortcode_media'];
             $list[] = $this->loadMedia($media);
         }
 
@@ -163,35 +163,37 @@ class Crawler
             $media['owner']['full_name'],
             $media['owner']['is_private']
         );
+
         if ($media['is_video']) {
+            
             return MediaFactory::createVideo(
                 (int) $media['id'],
-                $media['code'],
+                $media['shortcode'],
                 $media['video_url'],
-                $media['display_src'],
-                $media['video_views'],
+                $media['display_url'],
+                $media['video_view_count'],
                 $media['dimensions'],
-                $media['date'],
+                $media['taken_at_timestamp'],
                 $user,
-                $media['likes']['count'],
-                $media['comments']['count'],
+                $media['edge_media_preview_like']['count'],
+                $media['edge_media_to_comment']['count'],
                 $media['is_ad'],
-                $media['caption'] ?? null,
+                $media['edge_media_to_caption']['edges'][0]['node']['text'] ?? null,
                 $location
             );
         }
-
+        
         return MediaFactory::createPhoto(
             (int) $media['id'],
-            $media['code'],
-            $media['display_src'],
+            $media['shortcode'],
+            $media['display_url'],
             $media['dimensions'],
-            $media['date'],
+            $media['taken_at_timestamp'],
             $user,
-            $media['likes']['count'],
-            $media['comments']['count'],
+            $media['edge_media_preview_like']['count'],
+            $media['edge_media_to_comment']['count'],
             $media['is_ad'],
-            $media['caption'] ?? null,
+            $media['edge_media_to_caption']['edges'][0]['node']['text'] ?? null,
             $location
         );
     }
