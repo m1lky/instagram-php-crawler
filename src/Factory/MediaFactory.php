@@ -35,6 +35,7 @@ class MediaFactory
         array $dimension,
         int $created,
         User $user,
+        string $tags,
         int $likes = 0,
         int $comments = 0,
         bool $ad = false,

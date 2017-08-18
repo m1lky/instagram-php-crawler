@@ -15,6 +15,8 @@ class Video extends Media
      * @var string
      */
     private $thumb;
+    protected $likes;
+    protected $comments;
 
     /**
      * @param int       $id
@@ -36,6 +38,8 @@ class Video extends Media
     {
         $this->thumb = $thumb;
         $this->views = $views;
+        $this->comments = $comments;
+        $this->likes = $likes;
         parent::__construct($id, $code, $url, $dimension, $created, $user, $tags, $likes, $comments, $ad, $caption, $location);
     }
 
@@ -45,6 +49,22 @@ class Video extends Media
     public function getViews(): int
     {
         return $this->views;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLikes(): int
+    {
+        return $this->likes;
+    }
+
+    /**
+     * @return int
+     */
+    public function getComments(): int
+    {
+        return $this->comments;
     }
 
     /**

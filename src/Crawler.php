@@ -182,7 +182,7 @@ class Crawler
                 $location
             );
         }
-        
+
         return MediaFactory::createPhoto(
             (int) $media['id'],
             $media['shortcode'],
@@ -190,10 +190,11 @@ class Crawler
             $media['dimensions'],
             $media['taken_at_timestamp'],
             $user,
+            $media['edge_media_to_caption']['edges'][0]['node']['text'] ?? "",
             $media['edge_media_preview_like']['count'],
             $media['edge_media_to_comment']['count'],
             $media['is_ad'],
-            $media['edge_media_to_caption']['edges'][0]['node']['text'] ?? null,
+            $media['edge_media_to_caption']['edges'][0]['node']['text'] ?? false,
             $location
         );
     }
