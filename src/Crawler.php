@@ -210,7 +210,11 @@ class Crawler
      */
     public function getUser(string $username): User
     {
-        $response = $this->client->request('GET', sprintf(self::USER_ENDPOINT, $username));
+        try{
+            $response = $this->client->request('GET', sprintf(self::USER_ENDPOINT, $username));
+        }catch(Exception $e){
+            return;
+        }
         $user = json_decode($response->getBody()->getContents(), true)['user'];
 
         return UserFactory::create(
